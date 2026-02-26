@@ -14,6 +14,8 @@ import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.util.TriState;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.permissions.Permission;
+import net.minecraft.server.permissions.PermissionLevel;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public final class FabricMod implements DedicatedServerModInitializer, Placehold
           return switch (Permissions.getPermissionValue(commandSourceStack, permission)) {
             case TRUE -> TriState.TRUE;
             case FALSE -> TriState.FALSE;
-            case DEFAULT -> commandSourceStack.hasPermission(3) ? TriState.TRUE : TriState.NOT_SET;
+            case DEFAULT -> commandSourceStack.permissions().hasPermission(new Permission.HasCommandLevel(PermissionLevel.byId(3))) ? TriState.TRUE : TriState.NOT_SET;
           };
         }
     );
